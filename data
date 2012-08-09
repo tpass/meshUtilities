@@ -1,0 +1,13 @@
+# -*- getpot -*- (GetPot mode activation for emacs)
+#-------------------------------------------------
+#        Data file for MeshInfo
+#-------------------------------------------------
+
+[mesh]
+    mesh_dir = ./
+    mesh_file = cyltetra_label10.mesh
+    mesh_type = .mesh
+    verbose = 1
+
+[meshInfo]
+    flagList = '10,20,30'

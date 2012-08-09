@@ -1,0 +1,91 @@
+#
+# The paths to LifeV
+#
+LIFEPATH         = 
+LIFELIBPATH      = $(LIFEPATH)/lib
+LIFELIBS         = -llifefunctions -llifefilters -llifeoperators -llifesolver \
+                   -llifefem -llifealg -llifearray -llifecore -llifemesh
+LIFEINCLUDEPATH  = $(LIFEPATH)/include
+LIFELDFLAGS      = -L$(LIFELIBPATH)
+
+#
+# The paths to BLAS/LaPACK
+#
+BLASPATH         = 
+BLASLIBPATH      = $(BLASPATH)/lib
+BLASLIBS         = -llapack -lblas
+BLASINCLUDEPATH  = $(BLASPATH)/include
+BLASLDFLAGS      = -L$(BLASLIBPATH)
+
+#
+# The paths to UMFPACK
+#
+UMFPACKPATH        = 
+UMFPACKLIBPATH     = $(UMFPACKPATH)/lib
+UMFPACKLIBS        = -lumfpack -lamd -lcholmod -lcamd -lcolamd -lccolamd
+UMFPACKINCLUDEPATH = $(UMFPACKPATH)/include
+UMFPACKLDFLAGS     = -L$(UMFPACKLIBPATH)
+
+#
+# The paths to Trilinos
+#
+TRILPATH         = 
+TRILLIBPATH      = $(TRILPATH)/lib
+TRILLIBS         = -lml -lzoltan -ltriutils -lifpack -laztecoo -lbelos \
+                   -lbelosepetra -lamesos -lepetraext -lepetra -lteuchos
+TRILINCLUDEPATH  = $(TRILPATH)/include
+TRILLDFLAGS      = -L$(TRILLIBPATH)
+
+#
+# The paths to ParMETIS
+#
+PARMETISPATH        = 
+PARMETISLIBPATH     = $(PARMETISPATH)
+PARMETISLIBS        = -lparmetis -lmetis
+PARMETISINCLUDEPATH = $(PARMETISPATH)
+PARMETISLDFLAGS     = -L$(PARMETISLIBPATH)
+
+#
+# The paths to HDF5
+#
+HDF5PATH         = 
+HDF5LIBPATH      = $(HDF5PATH)/lib
+HDF5LIBS         = -lhdf5 -lz
+HDF5INCLUDEPATH  = $(HDF5PATH)/include
+HDF5LDFLAGS      = -L$(HDF5LIBPATH)
+
+#
+# The paths to MPI
+#
+MPIPATH        = 
+MPILIBPATH     = $(MPIPATH)/lib
+MPILIBS        = -lmpi -lmpi_cxx -lopen-rte -lopen-pal 
+MPIINCLUDEPATH = $(MPIPATH)/include
+MPILDFLAGS     = -L$(MPILIBPATH)
+
+#
+# The paths to Boost
+#
+BOOSTPATH        = 
+BOOSTINCLUDEPATH = $(BOOSTPATH)/include
+
+#
+# The compiler used
+#
+CXX = mpicxx 
+#
+# Since the linker is by default set to CC
+# we make this workaround (we can do better)
+#
+CC  = $(CXX)
+#
+# I want always full warnings
+#
+WARNFLAGS= -W -Wall
+#
+# Additional optimization
+#
+OPTFLAGS += -O3
+# -g       generate code suitable for the debugger
+# -p       generate code suitable for the profiler
+# -O       attemp code optimizations
