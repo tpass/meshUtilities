@@ -1,6 +1,6 @@
 //@HEADER
 /*
-*******************************************************************************
+ *******************************************************************************
 
     Copyright (C) 2004, 2005, 2007 EPFL, Politecnico di Milano, INRIA
     Copyright (C) 2010 EPFL, Politecnico di Milano, Emory University
@@ -20,8 +20,8 @@
     You should have received a copy of the GNU Lesser General Public License
     along with LifeV.  If not, see <http://www.gnu.org/licenses/>.
 
-*******************************************************************************
-*/
+ *******************************************************************************
+ */
 //@HEADER
 
 /*!
@@ -135,13 +135,19 @@ main( int argc, char** argv )
     // ****************************
     Vector meshSizesVector = meshSizes( *fullMeshPtr, feSpacePtr->fe(), commPtr );
 
-    displayer.leaderPrint( "\tmax mesh size: ", meshSizesVector[0], "\n" );
-    displayer.leaderPrint( "\tavg mesh size: ", meshSizesVector[1], "\n" );
-    displayer.leaderPrint( "\tmin mesh size: ", meshSizesVector[2], "\n" );
+    std::stringstream buffer;
+
+    if( !commPtr->MyPID() )
+    {
+        buffer << " -- Info for the volume mesh\n";
+        buffer << "\th_max = " << meshSizesVector[0] << "\n"
+                        << "\th_avg = " << meshSizesVector[1] << "\n"
+                        << "\th_min = " << meshSizesVector[2] << "\n";
+    }
 
     for(std::list<UInt>::iterator it=flagList.begin();it!=flagList.end();++it)
     {
-        displayer.leaderPrint( " -- Info for label ", *it, "\n" );
+        buffer << " -- Info for boundary section, label " << *it << "\n";
 
         std::vector<ID> faceList;
         faceList.clear();
@@ -157,18 +163,28 @@ main( int argc, char** argv )
         Vector centerOfMass = compute_center_of_mass( *fullMeshPtr, FACE, *it, commPtr );
         Real faceArea       = compute_area( *fullMeshPtr, *it, commPtr );
 
-        displayer.leaderPrint( "\tnormalVector:" );
-        for( UInt iComp = 0; iComp < nDimensions; ++iComp ) displayer.leaderPrint( " ", normalVector[iComp] );
-        displayer.leaderPrint( "\n" );
+        if( !commPtr->MyPID() )
+        {
+            buffer << "\tnormalVector:";
+            for( UInt iComp = 0; iComp < nDimensions; ++iComp ) buffer << " " << normalVector[iComp];
+            buffer << "\n";
 
-        displayer.leaderPrint( "\tcenterOfMass:" );
-        for( UInt iComp = 0; iComp < nDimensions; ++iComp ) displayer.leaderPrint( " ", centerOfMass[iComp] );
-        displayer.leaderPrint( "\n" );
+            buffer << "\tcenterOfMass:";
+            for( UInt iComp = 0; iComp < nDimensions; ++iComp ) buffer << " " << centerOfMass[iComp];
+            buffer << "\n";
 
-        displayer.leaderPrint( "\tfaceArea: ", faceArea, "\n" );
+            buffer << "\tfaceArea: " << faceArea << "\n";
+        }
+    }
 
-}
+    displayer.leaderPrint( buffer.str() );
 
+    if( !commPtr->MyPID() )
+    {
+        std::ofstream outfile( std::string( meshData.meshFile() + ".info" ).c_str() );
+        outfile << buffer.str();
+        outfile.close();
+    }
 
 #ifdef HAVE_MPI
     MPI_Finalize();
