@@ -8,6 +8,7 @@ make.dep
 *.h5
 *.xmf
 *.txt
+*.info
 *.o
 mainMeshInfo
 *.out
