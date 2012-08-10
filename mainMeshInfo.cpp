@@ -142,7 +142,10 @@ main( int argc, char** argv )
         buffer << " -- Info for the volume mesh\n";
         buffer << "\th_max = " << meshSizesVector[0] << "\n"
                         << "\th_avg = " << meshSizesVector[1] << "\n"
-                        << "\th_min = " << meshSizesVector[2] << "\n";
+                        << "\th_min = " << meshSizesVector[2] << "\n"
+                        << "\tdl_max = " << meshSizesVector[3] << "\n"
+                        << "\tdl_avg = " << meshSizesVector[4] << "\n"
+                        << "\tdl_min = " << meshSizesVector[5] << "\n";
     }
 
     for(std::list<UInt>::iterator it=flagList.begin();it!=flagList.end();++it)
